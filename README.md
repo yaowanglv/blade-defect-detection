@@ -13,6 +13,7 @@
 | 检测服务 | Flask + 定制 Ultralytics，端口 `6522` |
 | 数据库 | MySQL 8，库名 `blade` |
 | 权重 | `detect_service/models/`（RGB / IR / Dual） |
+| 数据集配置 | `detect_service/datasets/`（yaml；图像仍在 `DATASET_ROOT`，默认 `D:/opendataset/Wind-Turbine`） |
 
 ## 目录结构
 
@@ -20,7 +21,7 @@
 .
 ├── vue/                 前端
 ├── springb/             Spring Boot 后端
-├── detect_service/      Python 检测服务（含定制 ultralytics 与权重）
+├── detect_service/      Python 检测服务（含定制 ultralytics、权重、数据集 yaml）
 ├── sql/                 MySQL 结构脚本（仅结构，不含数据）
 ├── mcp/                 可选：MySQL / 飞书 / 钉钉 MCP 辅助配置
 └── README.md
