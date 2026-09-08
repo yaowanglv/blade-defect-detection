@@ -35,6 +35,57 @@
 - Python 3.10（检测服务与 conda 环境 `v11dmt` 对齐）
 - 可选：NVIDIA GPU + CUDA 12.1（与 `torch==2.2.2+cu121` 一致）
 
+## 数据集下载与放置
+
+仓库只包含 yaml 配置（`detect_service/datasets/`），**不包含图像和标签**。请自行下载后解压到本机：
+
+```text
+D:\opendataset\Wind-Turbine
+```
+
+- 网盘文件：`Wind-Turbine.zip`（夸克网盘）
+- 链接：https://pan.quark.cn/s/1dd65aad843c?pwd=ekdX
+- 提取码：`ekdX`
+- 分享口令：`/~c23c3akaJD~:/`（也可复制整段到夸克 APP 打开）
+
+解压后目录应对齐下面结构（与本机 `D:\opendataset\Wind-Turbine` 一致）。后端 `dataset.root` / 环境变量 `DATASET_ROOT` 默认也是该路径。
+
+```text
+D:\opendataset\Wind-Turbine\
+├── images\                 RGB 图像（windturbie-rgb.yaml、windturbine.yaml 的 train/val/test）
+│   ├── train\              约 1534 张
+│   ├── val\                约 431 张
+│   └── test\               约 226 张
+├── images_ir\              红外图像（与 RGB 同名对齐，供系统双模态配对）
+│   ├── train\
+│   ├── val\
+│   └── test\
+├── labels\                 YOLO 标签（与 images 划分一致）
+│   ├── train\
+│   ├── val\
+│   └── test\
+├── windturbine-ir\         红外单模态训练根目录（windturbine-ir.yaml 的 path）
+│   ├── images\train|val|test
+│   └── labels\train|val|test
+├── 风机\                   按类别归档的原图（非 YOLO 划分，可选）
+│   ├── damage\
+│   ├── dirt\
+│   └── 正常\
+└── data.yaml               Roboflow 导出说明（训练请用仓库内 detect_service/datasets/*.yaml）
+```
+
+与仓库 yaml 的对应关系：
+
+| yaml | `path` | 图像目录 | 说明 |
+|---|---|---|---|
+| `detect_service/datasets/windturbie-rgb.yaml` | `D:/opendataset/Wind-Turbine` | `images/train`、`images/val` | RGB 单模态 |
+| `detect_service/datasets/windturbine-ir.yaml` | `D:/opendataset/Wind-Turbine/windturbine-ir` | `images/train|val|test` | 红外单模态 |
+| `detect_service/datasets/windturbine.yaml` | `D:/opendataset/Wind-Turbine` | RGB：`images/`；红外：`images_ir/`（见下） | 双模态 |
+
+`windturbine.yaml` 里写的红外目录名是 `images_Dual`。本机实际文件夹是 **`images_ir`**。若训练报找不到红外图，把 yaml 中 `ir: images_Dual` 改成 `ir: images_ir`，或自行建 `images_Dual` 目录/软链。
+
+类别：`damage`、`dirt`（`nc: 2`）。
+
 ## 1. 初始化数据库
 
 在 MySQL 中按序号执行 `sql/`：
