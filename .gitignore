@@ -1,0 +1,46 @@
+# 依赖与构建
+node_modules/
+springb/target/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+.vite/
+
+# 密钥与本地配置
+.env
+.env.*
+!.env.example
+!.env.mcp.example
+application-local.yml
+**/application-local.yml
+mcp/**/node_modules/
+
+# IDE / 工具
+.idea/
+.vscode/
+.agents/
+.edge-profile/
+*.iml
+
+# 运行时与日志
+uploads/
+log/
+*.log
+hs_err_pid*.log
+detect_service/uploads/
+detect_service/results/
+detect_service/static/generated_videos/
+
+# 杂项
+.codex_tmp_*
+generated_images/
+.DS_Store
+Thumbs.db
+
+# 模型权重：默认忽略，仅提交检测服务使用的权重
+*.pt
+*.onnx
+*.engine
+!detect_service/models/
+!detect_service/models/**/*.pt

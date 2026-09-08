@@ -1,0 +1,77 @@
+# 仓库中的 application.yml 只保留占位符。
+# 本地密钥：复制 application-local.yml.example 为 application-local.yml，或用环境变量覆盖。
+# 不要把填好真实密钥的文件提交到 Git。
+spring.config.import: optional:classpath:application-local.yml
+
+
+server:
+  port: 1234
+  tomcat:
+    max-part-count: 1200
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USER:root}                      # MySQL 用户名
+    password: ${MYSQL_PASSWORD:your_mysql_password}   # MySQL 密码
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:blade}?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 1000MB
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+# JWT_SECRET: Base64 编码密钥，解码后至少 64 字节
+# python -c "import os,base64; print(base64.b64encode(os.urandom(64)).decode())"
+jwt:
+  secret: ${JWT_SECRET:your_base64_jwt_secret_here}
+  access-token-expire: 7200
+  refresh-token-expire: 604800
+
+file:
+  upload:
+    path: uploads/
+  access:
+    url: http://localhost:1234/files/
+
+dataset:
+  root: ${DATASET_ROOT:D:/opendataset/Wind-Turbine}
+
+python:
+  detect:
+    url: http://localhost:6522
+  video-convert:
+    url: http://localhost:6522
+
+# DEEPSEEK_API_KEY: DeepSeek Key，格式 sk-...
+# GLM_API_KEY: 智谱 GLM Key
+# KIMI_API_KEY: Moonshot/Kimi Key，格式 sk-...
+ai:
+  models:
+    deepseek:
+      api-key: ${DEEPSEEK_API_KEY:your_deepseek_api_key}
+      endpoint: https://api.deepseek.com/v1/chat/completions
+      model-name: deepseek-chat
+    glm:
+      api-key: ${GLM_API_KEY:your_glm_api_key}
+      endpoint: https://open.bigmodel.cn/api/paas/v4/chat/completions
+      model-name: glm-4
+    kimi:
+      api-key: ${KIMI_API_KEY:your_kimi_api_key}
+      endpoint: https://api.moonshot.cn/v1/chat/completions
+      model-name: moonshot-v1-8k
+
+# FEISHU_APP_ID: 飞书 App ID，格式 cli_...
+# FEISHU_APP_SECRET: 飞书 App Secret
+# FEISHU_PARENT_NODE: 文件夹 token（URL 中的 fld...），可选
+feishu:
+  app-id: ${FEISHU_APP_ID:your_feishu_app_id}
+  app-secret: ${FEISHU_APP_SECRET:your_feishu_app_secret}
+  parent-node: ${FEISHU_PARENT_NODE:your_feishu_folder_token}

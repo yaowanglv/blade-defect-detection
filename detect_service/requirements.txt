@@ -1,0 +1,32 @@
+# 风机叶片检测服务运行依赖
+# 版本来自本机 conda 环境 v11dmt（Python 3.10）的 pip freeze，已去掉训练/导出/其它业务用不到的包。
+# 不要 pip install ultralytics：使用本目录下的定制源码（pip install -e . 或 PYTHONPATH=.）。
+#
+# GPU 版 PyTorch（与 v11dmt 一致：torch 2.2.2 + cu121）：
+#   pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu121
+# CPU 可改为：
+#   pip install torch==2.2.2 torchvision==0.17.2 --index-url https://download.pytorch.org/whl/cpu
+
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+# ---- 检测 API（detect-api-blade.py）----
+Flask==3.1.3
+flask-cors==6.0.2
+numpy==1.23.5
+opencv-python==4.8.1.78
+pillow==12.2.0
+imageio-ffmpeg==0.6.0
+
+# ---- 定制 ultralytics 推理（YOLO.predict）----
+torch==2.2.2+cu121
+torchvision==0.17.2+cu121
+matplotlib==3.10.7
+pandas==2.3.3
+seaborn==0.13.2
+scipy==1.15.3
+PyYAML==6.0.3
+requests==2.32.5
+tqdm==4.67.1
+psutil==7.1.3
+thop==0.1.1.post2209072238
+py-cpuinfo>=9.0.0

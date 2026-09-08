@@ -1,0 +1,352 @@
+/*
+ * 蓝白色系主题 - 风机缺陷智能检测系统
+ * Design: 明亮蓝 + 纯白 + 清新语义色
+ */
+
+:root {
+    /* ===== 核心配色 - 明亮蓝 ===== */
+    --app-primary: #2B7DE9;
+    --app-primary-hover: #1A5FC7;
+    --app-primary-soft: #E8F0FE;
+    --app-primary-light: #B3CEF8;
+
+    /* 辅助色 - 清新青 */
+    --app-accent: #06B6D4;
+    --app-accent-soft: #E6F9FE;
+    --app-accent-light: #A5F3FC;
+
+    /* 成功色 - 翡翠绿 */
+    --app-success: #10B981;
+    --app-success-hover: #059669;
+    --app-success-soft: #E8F9F2;
+
+    /* 警告色 - 琥珀 */
+    --app-warning: #F59E0B;
+    --app-warning-hover: #D97706;
+    --app-warning-soft: #FEF9E7;
+
+    /* 危险色 - 清新红 */
+    --app-danger: #EF4444;
+    --app-danger-hover: #DC2626;
+    --app-danger-soft: #FEE8E8;
+
+    /* 信息色 - 靛蓝 */
+    --app-info: #6366F1;
+    --app-info-hover: #4F46E5;
+    --app-info-soft: #EEF0FF;
+
+    /* ===== 背景配色 - 亮白微蓝 ===== */
+    --app-bg: linear-gradient(180deg, #F0F5FF 0%, #F8FAFF 50%, #EEF3FA 100%);
+    --app-bg-color: #F0F5FF;
+
+    /* 卡片背景 - 纯白 */
+    --app-surface: #FFFFFF;
+    --app-surface-soft: #F8FAFF;
+    --app-surface-hover: #EFF4FF;
+
+    /* ===== 文字配色 ===== */
+    --app-text: #1E293B;
+    --app-text-secondary: #475569;
+    --app-text-muted: #94A3B8;
+    --app-text-light: #CBD5E1;
+
+    /* ===== 边框与阴影 ===== */
+    --app-border: #E2E8F0;
+    --app-border-light: #F1F5F9;
+    --app-border-strong: #CBD5E1;
+
+    /* 柔和阴影 - 蓝调 */
+    --app-shadow: 0 2px 12px rgba(43, 125, 233, 0.06);
+    --app-shadow-strong: 0 8px 32px rgba(43, 125, 233, 0.10);
+    --app-shadow-glow: 0 0 20px rgba(43, 125, 233, 0.08);
+
+    /* ===== 圆角 ===== */
+    --app-radius: 10px;
+    --app-radius-sm: 6px;
+    --app-radius-lg: 14px;
+
+    /* ===== Element Plus 主题映射 ===== */
+    --el-color-primary: var(--app-primary);
+    --el-color-primary-light-3: #6CA0E8;
+    --el-color-primary-light-5: #A3C4F0;
+    --el-color-primary-light-7: #C7D9F5;
+    --el-color-primary-light-8: #E3EDFA;
+    --el-color-primary-light-9: var(--app-primary-soft);
+    --el-color-primary-dark-2: var(--app-primary-hover);
+
+    --el-color-success: var(--app-success);
+    --el-color-warning: var(--app-warning);
+    --el-color-danger: var(--app-danger);
+    --el-color-info: var(--app-info);
+
+    --el-border-radius-base: var(--app-radius);
+    --el-border-radius-small: var(--app-radius-sm);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--app-text);
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    background: var(--app-bg-color);
+    background-attachment: fixed;
+}
+
+a {
+    color: var(--app-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--app-primary-hover);
+}
+
+/* ===== 页面容器 ===== */
+.page-shell {
+    min-height: calc(100vh - 60px);
+    padding: 24px;
+    background: var(--app-bg);
+}
+
+/* ===== 卡片组件 ===== */
+.card,
+.app-card {
+    background-color: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    box-shadow: var(--app-shadow);
+    transition: all 0.3s ease;
+}
+
+.card:hover,
+.app-card:hover {
+    box-shadow: var(--app-shadow-strong);
+    border-color: var(--app-border-strong);
+}
+
+.card {
+    padding: 20px;
+}
+
+/* ===== 页面标题 ===== */
+.page-title {
+    margin: 0;
+    color: var(--app-text);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.page-subtitle {
+    margin: 8px 0 0;
+    color: var(--app-text-muted);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* ===== 按钮样式优化 ===== */
+.el-button {
+    font-weight: 500;
+    border-radius: var(--app-radius-sm);
+    transition: all 0.3s ease;
+}
+
+.el-button--primary {
+    background: var(--app-primary);
+    border: none;
+    box-shadow: 0 4px 12px rgba(43, 125, 233, 0.25);
+}
+
+.el-button--primary:hover {
+    background: var(--app-primary-hover);
+    box-shadow: 0 6px 16px rgba(43, 125, 233, 0.35);
+    transform: translateY(-1px);
+}
+
+.el-button--primary.is-disabled {
+    background: var(--app-text-light);
+    box-shadow: none;
+}
+
+.el-button--success {
+    background: var(--app-success);
+    border: none;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.el-button--success:hover {
+    background: var(--app-success-hover);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+    transform: translateY(-1px);
+}
+
+.el-button--warning {
+    background: var(--app-warning);
+    border: none;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+}
+
+.el-button--warning:hover {
+    background: var(--app-warning-hover);
+    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+    transform: translateY(-1px);
+}
+
+.el-button--danger {
+    background: var(--app-danger);
+    border: none;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+.el-button--danger:hover {
+    background: var(--app-danger-hover);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.35);
+    transform: translateY(-1px);
+}
+
+.el-button.is-circle {
+    border-radius: 50%;
+}
+
+/* ===== Element Card ===== */
+.el-card {
+    border-color: var(--app-border);
+    border-radius: var(--app-radius);
+    box-shadow: var(--app-shadow);
+    background: var(--app-surface);
+}
+
+.el-card__header {
+    background: linear-gradient(180deg, var(--app-surface-soft) 0%, var(--app-surface) 100%);
+    border-bottom: 1px solid var(--app-border);
+    padding: 16px 20px;
+}
+
+/* ===== Element Table ===== */
+.el-table {
+    --el-table-border-color: var(--app-border);
+    --el-table-header-bg-color: var(--app-surface-soft);
+    --el-table-header-text-color: var(--app-text);
+    --el-table-row-hover-bg-color: var(--app-surface-hover);
+    color: var(--app-text);
+    border-radius: var(--app-radius);
+}
+
+.el-table th.el-table__cell {
+    background: linear-gradient(180deg, #EFF4FF 0%, #E2E8F0 100%);
+    font-weight: 600;
+    color: var(--app-text-secondary);
+}
+
+/* ===== Element Input & Select ===== */
+.el-input__wrapper,
+.el-select__wrapper {
+    box-shadow: 0 0 0 1px var(--app-border) inset;
+    background-color: var(--app-surface);
+    border-radius: var(--app-radius-sm);
+    transition: all 0.3s ease;
+}
+
+.el-input__wrapper:hover,
+.el-select__wrapper:hover {
+    box-shadow: 0 0 0 1px var(--app-border-strong) inset;
+}
+
+.el-input__wrapper.is-focus,
+.el-select__wrapper.is-focused {
+    box-shadow: 0 0 0 2px var(--app-primary-light) inset, var(--app-shadow-glow);
+}
+
+/* ===== Element Tag ===== */
+.el-tag {
+    border-radius: var(--app-radius-sm);
+    font-weight: 500;
+}
+
+.el-tag--primary {
+    background-color: var(--app-primary-soft);
+    border-color: var(--app-primary-light);
+    color: var(--app-primary);
+}
+
+.el-tag--success {
+    background-color: var(--app-success-soft);
+    border-color: #A7E3C4;
+    color: var(--app-success);
+}
+
+.el-tag--warning {
+    background-color: var(--app-warning-soft);
+    border-color: #FDE6A3;
+    color: var(--app-warning);
+}
+
+.el-tag--danger {
+    background-color: var(--app-danger-soft);
+    border-color: #FBC5C5;
+    color: var(--app-danger);
+}
+
+/* ===== Element Progress ===== */
+.el-progress-bar__outer {
+    background-color: var(--app-border-light);
+    border-radius: 10px;
+}
+
+.el-progress-bar__inner {
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--app-primary) 0%, var(--app-accent) 100%);
+}
+
+/* ===== Element Message ===== */
+.el-message {
+    border-radius: var(--app-radius);
+    box-shadow: var(--app-shadow-strong);
+}
+
+/* ===== Element Alert ===== */
+.el-alert--success {
+    --el-alert-bg-color: var(--app-success-soft);
+    border: 1px solid #A7E3C4;
+}
+
+.el-alert--warning {
+    --el-alert-bg-color: var(--app-warning-soft);
+    border: 1px solid #FDE6A3;
+}
+
+.el-alert--error {
+    --el-alert-bg-color: var(--app-danger-soft);
+    border: 1px solid #FBC5C5;
+}
+
+/* ===== 自定义动画 ===== */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+}

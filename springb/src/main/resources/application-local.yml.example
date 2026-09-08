@@ -1,0 +1,34 @@
+# 复制本文件为 application-local.yml，填入本地真实值。
+# application-local.yml 已被根目录 .gitignore 忽略，不要提交到 Git。
+
+spring:
+  datasource:
+    username: root                    # MySQL 用户名
+    password: your_mysql_password     # MySQL 密码
+    # url 一般不用改；如需换主机/库名，取消下面注释：
+    # url: jdbc:mysql://localhost:3306/blade?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+
+# JWT_SECRET: Base64 编码密钥，解码后至少 64 字节
+# python -c "import os,base64; print(base64.b64encode(os.urandom(64)).decode())"
+jwt:
+  secret: your_base64_jwt_secret_here
+
+# DEEPSEEK_API_KEY: DeepSeek Key，格式 sk-...
+# GLM_API_KEY: 智谱 GLM Key
+# KIMI_API_KEY: Moonshot/Kimi Key，格式 sk-...
+ai:
+  models:
+    deepseek:
+      api-key: your_deepseek_api_key
+    glm:
+      api-key: your_glm_api_key
+    kimi:
+      api-key: your_kimi_api_key
+
+# FEISHU_APP_ID: 飞书 App ID，格式 cli_...
+# FEISHU_APP_SECRET: 飞书 App Secret
+# FEISHU_PARENT_NODE: 云文档文件夹 token（URL 中的 fld...），可不填
+feishu:
+  app-id: your_feishu_app_id
+  app-secret: your_feishu_app_secret
+  parent-node: your_feishu_folder_token

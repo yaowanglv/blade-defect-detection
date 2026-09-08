@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springb.mapper.VideoDetectMapper">
+
+    <!-- 完整字段 resultMap（含大字段） -->
+    <resultMap id="BaseResultMap" type="com.example.springb.entity.VideoDetect">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="original_video_name" property="originalVideoName"/>
+        <result column="original_video_url" property="originalVideoUrl"/>
+        <result column="original_video_size" property="originalVideoSize"/>
+        <result column="original_video_format" property="originalVideoFormat"/>
+        <result column="result_video_url" property="resultVideoUrl"/>
+        <result column="detection_data" property="detectionData"/>
+        <result column="total_frames" property="totalFrames"/>
+        <result column="fps" property="fps"/>
+        <result column="duration" property="duration"/>
+        <result column="ai_model" property="aiModel"/>
+        <result column="ai_analysis_result" property="aiAnalysisResult"/>
+        <result column="ai_analysis_time" property="aiAnalysisTime"/>
+        <result column="detect_status" property="detectStatus"/>
+        <result column="ai_status" property="aiStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+        <result column="detector_name" property="detectorName"/>
+        <result column="detector_username" property="detectorUsername"/>
+    </resultMap>
+
+    <!-- 轻量级 resultMap（列表页使用，排除大字段避免排序内存溢出） -->
+    <resultMap id="BaseResultMapLight" type="com.example.springb.entity.VideoDetect">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="original_video_name" property="originalVideoName"/>
+        <result column="original_video_url" property="originalVideoUrl"/>
+        <result column="original_video_size" property="originalVideoSize"/>
+        <result column="original_video_format" property="originalVideoFormat"/>
+        <result column="result_video_url" property="resultVideoUrl"/>
+        <result column="total_frames" property="totalFrames"/>
+        <result column="fps" property="fps"/>
+        <result column="duration" property="duration"/>
+        <result column="ai_model" property="aiModel"/>
+        <result column="ai_analysis_time" property="aiAnalysisTime"/>
+        <result column="detect_status" property="detectStatus"/>
+        <result column="ai_status" property="aiStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+        <result column="detector_name" property="detectorName"/>
+        <result column="detector_username" property="detectorUsername"/>
+    </resultMap>
+
+    <!-- 列表查询（轻量级，排除 detection_data / ai_analysis_result 避免 sort buffer 溢出） -->
+    <select id="selectPage" resultMap="BaseResultMapLight">
+        SELECT
+            d.id, d.user_id, d.user_name,
+            d.original_video_name, d.original_video_url, d.original_video_size, d.original_video_format,
+            d.result_video_url,
+            d.total_frames, d.fps, d.duration,
+            d.ai_model, d.ai_analysis_time,
+            d.detect_status, d.ai_status,
+            d.create_time, d.update_time, d.remark,
+            COALESCE(a.name, d.user_name) AS detector_name,
+            a.username AS detector_username
+        FROM video_detect d
+        LEFT JOIN `admin` a ON d.user_id = a.id
+        <where>
+            <if test="userId != null">
+                AND d.user_id = #{userId}
+            </if>
+            <if test="detectStatus != null">
+                AND d.detect_status = #{detectStatus}
+            </if>
+            <if test="aiStatus != null">
+                AND d.ai_status = #{aiStatus}
+            </if>
+            <if test="aiModel != null and aiModel != ''">
+                AND d.ai_model = #{aiModel}
+            </if>
+            <if test="createDate != null and createDate != ''">
+                AND DATE(d.create_time) = #{createDate}
+            </if>
+            <if test="aiUsed != null and aiUsed != ''">
+                <choose>
+                    <when test='aiUsed == "1"'>
+                        AND d.ai_model IS NOT NULL AND d.ai_model != ''
+                    </when>
+                    <when test='aiUsed == "0"'>
+                        AND (d.ai_model IS NULL OR d.ai_model = '')
+                    </when>
+                </choose>
+            </if>
+            <if test="idsArr != null and idsArr.length > 0">
+                AND d.id IN
+                <foreach collection="idsArr" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY d.create_time DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+            d.*,
+            COALESCE(a.name, d.user_name) AS detector_name,
+            a.username AS detector_username
+        FROM video_detect d
+        LEFT JOIN `admin` a ON d.user_id = a.id
+        WHERE d.id = #{id}
+    </select>
+
+    <update id="updateById">
+        UPDATE video_detect
+        <set>
+            <if test="resultVideoUrl != null">result_video_url = #{resultVideoUrl},</if>
+            <if test="detectionData != null">detection_data = #{detectionData},</if>
+            <if test="totalFrames != null">total_frames = #{totalFrames},</if>
+            <if test="fps != null">fps = #{fps},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="detectStatus != null">detect_status = #{detectStatus},</if>
+            <if test="aiModel != null">ai_model = #{aiModel},</if>
+            <if test="aiAnalysisResult != null">ai_analysis_result = #{aiAnalysisResult},</if>
+            <if test="aiAnalysisTime != null">ai_analysis_time = #{aiAnalysisTime},</if>
+            <if test="aiStatus != null">ai_status = #{aiStatus},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

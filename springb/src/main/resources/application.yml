@@ -1,0 +1,95 @@
+# 本地密钥请写在 application-local.yml（已被 .gitignore 忽略），或用环境变量覆盖。
+# 复制 application-local.yml.example 为 application-local.yml 后填入真实值。
+spring.config.import: optional:classpath:application-local.yml
+
+server:
+  port: 1234
+  tomcat:
+    max-part-count: 1200
+
+spring:
+  # 数据库配置
+  # MYSQL_USER: MySQL 用户名
+  # MYSQL_PASSWORD: MySQL 密码
+  # MYSQL_HOST / MYSQL_PORT / MYSQL_DB: 主机、端口、库名
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:your_mysql_password}
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:blade}?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 1000MB
+
+# 配置mybatis实体和xml映射
+mybatis:
+  ## 映射xml
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    # 配置日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+# JWT配置
+# JWT_SECRET: Base64 编码的签名密钥。HS512 要求解码后至少 64 字节，可用下面命令生成：
+# python -c "import os,base64; print(base64.b64encode(os.urandom(64)).decode())"
+jwt:
+  secret: ${JWT_SECRET:your_base64_jwt_secret_here}
+  access-token-expire: 7200
+  refresh-token-expire: 604800
+
+# 自定义配置 - 文件上传
+file:
+  upload:
+    path: uploads/  # 文件上传根目录（相对路径或绝对路径）
+  access:
+    url: http://localhost:1234/files/  # 文件访问URL前缀
+
+# 数据集根目录（用于自动查找另一模态的对应图像）
+dataset:
+  root: ${DATASET_ROOT:D:/opendataset/Wind-Turbine}
+
+# Python检测服务配置
+python:
+  detect:
+    url: http://localhost:6522  # Python检测服务基础地址（不要加/detect）
+  video-convert:
+    url: http://localhost:6522  # 图片转视频服务基础地址（不要加/images_to_video）
+
+# AI大模型API配置（通过环境变量传入，不要把真实 Key 写进仓库）
+# 配置指南见: docs/AI_API_KEY_CONFIG.md
+# DEEPSEEK_API_KEY: DeepSeek 控制台生成的 Key，格式一般为 sk-...
+# GLM_API_KEY: 智谱开放平台 API Key
+# KIMI_API_KEY: Moonshot / Kimi 控制台生成的 Key，格式一般为 sk-...
+ai:
+  models:
+    deepseek:
+      api-key: ${DEEPSEEK_API_KEY:your_deepseek_api_key}
+      endpoint: https://api.deepseek.com/v1/chat/completions
+      model-name: deepseek-chat
+    glm:
+      api-key: ${GLM_API_KEY:your_glm_api_key}
+      endpoint: https://open.bigmodel.cn/api/paas/v4/chat/completions
+      model-name: glm-4
+    kimi:
+      api-key: ${KIMI_API_KEY:your_kimi_api_key}
+      endpoint: https://api.moonshot.cn/v1/chat/completions
+      model-name: moonshot-v1-8k
+
+# 飞书应用配置（用于上传文件到云文档）
+# 获取方式: https://open.feishu.cn/app 创建企业自建应用
+# FEISHU_APP_ID: 飞书应用 App ID，格式一般为 cli_...
+# FEISHU_APP_SECRET: 飞书应用 App Secret
+# FEISHU_PARENT_NODE: 目标文件夹 token，云文档文件夹 URL 中的 fld... 段；不填则上传到根目录
+# 权限要求:
+#   - drive:drive:readonly (查看云文档)
+#   - drive:file:write (上传文件)
+#   - drive:file:upload (上传文件到云空间)
+feishu:
+  app-id: ${FEISHU_APP_ID:your_feishu_app_id}
+  app-secret: ${FEISHU_APP_SECRET:your_feishu_app_secret}
+  parent-node: ${FEISHU_PARENT_NODE:your_feishu_folder_token}

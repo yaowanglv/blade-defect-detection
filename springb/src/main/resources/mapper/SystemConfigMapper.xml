@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springb.mapper.SystemConfigMapper">
+
+    <update id="updateById" parameterType="com.example.springb.entity.SystemConfig">
+        UPDATE system_config
+        <set>
+            <if test="configKey != null">config_key = #{configKey},</if>
+            <if test="configValue != null">config_value = #{configValue},</if>
+            <if test="configGroup != null">config_group = #{configGroup},</if>
+            <if test="configLabel != null">config_label = #{configLabel},</if>
+            <if test="defaultValue != null">default_value = #{defaultValue},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>
